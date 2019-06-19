@@ -1,11 +1,17 @@
 import * as React from 'react';
+import decrementContext from '../Contexts/decCounter';
+import incrementContext from '../Contexts/counter';
+import DecButton from './Commons/DecButton';
+import IncButton from './Commons/IncButton';
 const { useState } = React;
 
 export const Counter = () => {
     const [count, setCount] = useState({ number: 1, show: false });
+
     const incAmount = () => {
         count.number += 1;
         count.show = true;
+        console.log('aaaa')
         setCount({ number: count.number, show: count.show })
     }
     const decAmount = () => {
@@ -15,23 +21,16 @@ export const Counter = () => {
     }
     return (
         <>
-            <button onClick={() => incAmount()}> <i className="far fa-hand-point-left"></i> </button>
+            <incrementContext.Provider value={() => incAmount()}>
+                <IncButton />
+            </incrementContext.Provider>
             <span>{count.number - 1}</span>
             <span>{count.number}</span>
             <span>{count.number + 1}</span>
-            <button onClick={() => decAmount()}> <i className="far fa-hand-point-right"></i> </button>
+            <decrementContext.Provider value={() => decAmount()}>
+                <DecButton />
+            </decrementContext.Provider>
             <button onClick={() => setCount({ number: 1, show: false })}><i className="far fa-thumbs-up">reset</i></button>
         </>
-    )
+    );
 }
-
-// this.state = {
-//     count: {
-//         number: 1,
-//     }
-// }
-// var { number } = this.state.count;
-// number = number + 1;
-// this.setState({
-//     count
-// })
